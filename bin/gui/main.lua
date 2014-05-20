@@ -70,3 +70,5 @@ end
 
 window:show()
 iup.MainLoop()
+
+iup.Close()
