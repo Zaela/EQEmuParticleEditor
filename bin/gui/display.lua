@@ -157,6 +157,24 @@ function NewParticle()
 	d.id = id
 	d.name = name
 	d.offset = 0
+	--defaults:
+	d.total_scale = 1
+	d.density = 10
+	d.fadeout_time = 1
+	d.field17 = 10
+	d.field18 = 1
+	d.image_stretch = 1
+	d.red_tint1 = 255
+	d.green_tint1 = 255
+	d.blue_tint1 = 255
+	d.red_tint2 = 255
+	d.green_tint2 = 255
+	d.blue_tint2 = 255
+	d.image_segments = 1
+	d.field72 = 1
+	d.field73 = 1
+	d.field74 = 1
+
 	ml[id] = d
 
 	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", main_list, d)
