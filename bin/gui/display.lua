@@ -52,28 +52,28 @@ end
 local grid1 = iup.gridbox{
 	e"Effective ID", f.id, e"Filename", f.filename, e"Field1", f.field1, e"Field2", f.field2,
 	e"Field3", f.field3, e"Field4", f.field4, e"Field5", f.field5, e"Field6", f.field6,
-	e"Field7", f.field7, e"Total Scale", f.total_scale, e"Density-related A", f.density_relatedA,
-	e"Density-related B", f.density_relatedB, e"Density", f.density, e"Emission Delay A", f.emission_delayA,
-	e"Emission Delay B", f.emission_delayB, e"Fadeout Time", f.fadeout_time, e"Particle Scale A", f.particle_scaleA,
-	e"Particle Scale B", f.particle_scaleB, e"Max at Once", f.field17, e"Opacity", f.field18, e"Field19", f.field19;
+	e"Field7", f.field7, e"Total Scale", f.total_scale, e"Density A", f.density_relatedA,
+	e"Density B", f.density_relatedB, e"Density C", f.density, e"Delay A", f.emission_delayA,
+	e"Delay B", f.emission_delayB, e"Delay C (Fadeout)", f.fadeout_time, e"Particle Scale A", f.particle_scaleA,
+	e"Particle Scale B", f.particle_scaleB, e"Max at Once", f.field17, e"Opacity", f.field18, e"Movement Style", f.field19;
 	numdiv = 2, orientation = "HORIZONTAL", homogeneouslin = "YES",
-	gapcol = 10, gaplin = 8, alignmentlin = "ACENTER", sizelin = 10
+	gapcol = 10, gaplin = 8, alignmentlin = "ACENTER", sizelin = 15
 }
 
 local grid2 = iup.gridbox{
-	e"Initial Distribution", f.field20, e"X Axis Scale", f.x_axis_scale, e"Z Axis Scale", f.z_axis_scale,
+	e"Initial Distribution", f.field20, e"Scale A", f.x_axis_scale, e"Scale B", f.z_axis_scale,
 	e"Translation X", f.translation_x, e"Translation Y", f.translation_y, e"Translation Z", f.translation_z,
 	e"Field26", f.field26, e"Field27", f.field27, e"Image Stretch", f.image_stretch, e"Field29", f.field29,
 	e"Red Tint 1", f.red_tint1, e"Green Tint 1", f.green_tint1, e"Blue Tint 1", f.blue_tint1,
 	e"Red Tint 2", f.red_tint2, e"Green Tint 2", f.green_tint2, e"Blue Tint 2", f.blue_tint2,
-	e"Movement Speed", f.field36, e"Field37", f.field37, e"Field38", f.field38, e"Field39", f.field39, e"Field40", f.field40;
+	e"Movement Speed A", f.field36, e"Movement Speed B", f.field37, e"Movement Speed C", f.field38, e"Stray X", f.field40, e"Stray Y", f.field39;
 	numdiv = 2, orientation = "HORIZONTAL", homogeneouslin = "YES",
 	gapcol = 10, gaplin = 8, alignmentlin = "ACENTER", sizelin = 16
 }
 
 local grid3 = iup.gridbox{
-	e"Stray?", f.field41, e"Spread X", f.field43, e"Spread Y", f.field42, e"Spread Z", f.field44, e"Distribution A", f.field45,
-	e"Distribution B", f.field46, e"Field47", f.field47, e"Field48", f.field48, e"Field49", f.field49, e"Field50", f.field50,
+	e"Stray Z", f.field41, e"Spread X", f.field43, e"Spread Y", f.field42, e"Spread Z", f.field44, e"Distribution X", f.field45,
+	e"Distribution Y", f.field46, e"Distribution Z", f.field47, e"Field48", f.field48, e"Field49", f.field49, e"Field50", f.field50,
 	e"Field51", f.field51, e"Field52", f.field52, e"Image Segments", f.image_segments, e"Rotation Speed", f.rotation_speed,
 	e"Field55", f.field55, e"Field56", f.field56, e"Field57", f.field57, e"Field58", f.field58, e"Field59", f.field59,
 	e"Field60", f.field60, e"Field61", f.field61;
@@ -84,7 +84,7 @@ local grid3 = iup.gridbox{
 local grid4 = iup.gridbox{
 	e"Field62", f.field62, e"Field63", f.field63, e"Field64", f.field64, e"Field65", f.field65, e"Field66", f.field66,
 	e"Field67", f.field67, e"Field68", f.field68, e"Field69", f.field69, e"Field70", f.field70, e"Field71", f.field71,
-	e"Stretch X?", f.field72, e"Stretch Y?", f.field73, e"Stretch Z?", f.field74, e"Field75", f.field75, e"Field76", f.field76,
+	e"Stretch X", f.field72, e"Stretch Y", f.field73, e"Stretch Z", f.field74, e"Field75", f.field75, e"Field76", f.field76,
 	e"Field77", f.field77, e"Field78", f.field78, e"Field79", f.field79, e"Field80", f.field80;
 	numdiv = 2, orientation = "HORIZONTAL", homogeneouslin = "YES",
 	gapcol = 10, gaplin = 8, alignmentlin = "ACENTER", sizelin = 10
