@@ -63,7 +63,7 @@ local grid1 = iup.gridbox{
 local grid2 = iup.gridbox{
 	e"Initial Distribution", f.field20, e"Scale A", f.x_axis_scale, e"Scale B", f.z_axis_scale,
 	e"Translation X", f.translation_x, e"Translation Y", f.translation_y, e"Translation Z", f.translation_z,
-	e"Field26", f.field26, e"Field27", f.field27, e"Image Stretch", f.image_stretch, e"Field29", f.field29,
+	e"Field26", f.field26, e"Angle", f.field27, e"Image Stretch", f.image_stretch, e"Field29", f.field29,
 	e"Red Tint 1", f.red_tint1, e"Green Tint 1", f.green_tint1, e"Blue Tint 1", f.blue_tint1,
 	e"Red Tint 2", f.red_tint2, e"Green Tint 2", f.green_tint2, e"Blue Tint 2", f.blue_tint2,
 	e"Movement Speed A", f.field36, e"Movement Speed B", f.field37, e"Movement Speed C", f.field38, e"Stray X", f.field40, e"Stray Y", f.field39;
@@ -177,7 +177,45 @@ function NewParticle()
 
 	ml[id] = d
 
-	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", main_list, d)
+	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", ml, d)
+	if s then
+		FilterList(ml)
+		return
+	end
+	error_popup(err)
+end
+
+function CopyParticle()
+	local ml = main_list
+	local path = search_path
+	local sel = selection
+	if not ml or not path or not sel then return end
+
+	local name
+	local input = iup.text{visiblecolumns = 12, nc = 63}
+	local getname
+	local but = iup.button{title = "Done", action = function() name = tostring(input.value) getname:hide() end}
+	getname = iup.dialog{iup.vbox{
+		iup.label{title = "Please enter a name to identify the new particle entry:"},
+		input, but, gap = 12, nmargin = "15x15", alignment = "ACENTER"};
+		k_any = function(self, key) if key == iup.K_CR then but:action() end end}
+	iup.Popup(getname)
+	iup.Destroy(getname)
+
+	if not name then return end
+
+	local d = {}
+	for k, v in pairs(sel) do
+		d[k] = v
+	end
+	local id = #ml + 1
+	d.id = id
+	d.name = name
+	d.offset = 0
+
+	ml[id] = d
+
+	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", ml, d)
 	if s then
 		FilterList(ml)
 		return

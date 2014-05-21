@@ -67,6 +67,7 @@ function list:button_cb(button, pressed, x, y)
 		local mx, my = iup.GetGlobal("CURSORPOS"):match("(%d+)x(%d+)")
 		local menu = iup.menu{
 			iup.item{title = "Add New Entry", action = NewParticle},
+			iup.item{title = "Copy Selection", action = CopyParticle, active = selection and "YES" or "NO"},
 		}
 		iup.Popup(menu, mx, my)
 		iup.Destroy(menu)
