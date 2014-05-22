@@ -16,6 +16,8 @@ end
 
 local display = require "gui/display"
 local list = require "gui/list"
+local title = "EQEmu Particle Editor v0.1"
+local window
 
 local function SetSearchFolder()
 	local dlg = iup.filedlg{title = "Select EDD File", dialogtype = "FILE",
@@ -24,6 +26,7 @@ local function SetSearchFolder()
 	if dlg.status == "0" then
 		local path = dlg.value
 		if path then
+			window.title = title .. " - ".. path:match("[^\\/]+$")
 			search_path = path
 			UpdateList(path)
 			local f = assert(io.open("gui/settings.lua", "w+"))
@@ -38,15 +41,13 @@ local function LoadSettings()
 	if settings then
 		local path = settings()
 		if path then
+			window.title = title .. " - ".. path:match("[^\\/]+$")
 			search_path = path
 			UpdateList(path)
 			return
 		end
 	end
 end
-
-LoadSettings()
-LoadSettings = nil
 
 local menu = iup.menu{
 	iup.submenu{
@@ -59,8 +60,11 @@ local menu = iup.menu{
 	},
 }
 
-local window = assert(iup.dialog{iup.hbox{list, display; nmargin = "10x10", gap = 10};
-	title = "EQEmu Particle Editor v0.1", menu = menu})
+window = assert(iup.dialog{iup.hbox{list, display; nmargin = "10x10", gap = 10};
+	title = title, menu = menu})
+
+LoadSettings()
+LoadSettings = nil
 
 function window:k_any(key)
 	if key == iup.K_ESC then
