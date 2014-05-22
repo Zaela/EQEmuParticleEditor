@@ -19,7 +19,7 @@ local list = require "gui/list"
 
 local function SetSearchFolder()
 	local dlg = iup.filedlg{title = "Select EDD File", dialogtype = "FILE",
-		extfilter = "EDD File (*.edd)|*.edd|", directory = lfs.currentdir()}
+		extfilter = "EDD Files (*.edd)|*.edd|All Files|*.*|", directory = lfs.currentdir()}
 	iup.Popup(dlg)
 	if dlg.status == "0" then
 		local path = dlg.value
@@ -43,7 +43,6 @@ local function LoadSettings()
 			return
 		end
 	end
-	SetSearchFolder()
 end
 
 LoadSettings()
