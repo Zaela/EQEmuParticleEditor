@@ -285,7 +285,7 @@ int Write(lua_State* L)
 	if (offset != 0)
 	{
 		Data* in = (Data*)&ptr[offset];
-		*in = d;
+		memcpy(in, &d, Data::SIZE);
 	}
 	else
 	{
