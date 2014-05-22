@@ -16,7 +16,6 @@ local ipairs = ipairs
 
 function UpdateList(path)
 	list[1] = nil
-	path = path .. "\\actoremittersnew.edd"
 	local s, main_data = pcall(data.Read, path)
 	if s then
 		main_list = main_data

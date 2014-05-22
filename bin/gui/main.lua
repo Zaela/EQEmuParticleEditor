@@ -18,7 +18,8 @@ local display = require "gui/display"
 local list = require "gui/list"
 
 local function SetSearchFolder()
-	local dlg = iup.filedlg{title = "Select EQ Folder", dialogtype = "DIR", directory = lfs.currentdir()}
+	local dlg = iup.filedlg{title = "Select EDD File", dialogtype = "FILE",
+		extfilter = "EDD File (*.edd)|*.edd|", directory = lfs.currentdir()}
 	iup.Popup(dlg)
 	if dlg.status == "0" then
 		local path = dlg.value
@@ -52,7 +53,7 @@ local menu = iup.menu{
 	iup.submenu{
 		title = "&File";
 		iup.menu{
-			iup.item{title = "Set EQ Folder", action = SetSearchFolder},
+			iup.item{title = "Open EDD File", action = SetSearchFolder},
 			iup.separator{},
 			iup.item{title = "&Quit", action = function() return iup.CLOSE end},
 		},

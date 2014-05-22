@@ -108,7 +108,7 @@ function button:action()
 		end
 	end
 
-	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", main_list, sel)
+	local s, err = pcall(data.Write, path, main_list, sel)
 	if s then
 		button.active = "NO"
 		return
