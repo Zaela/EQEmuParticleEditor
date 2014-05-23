@@ -148,19 +148,8 @@ function NewParticle()
 	local ml = main_list
 	local path = search_path
 	if not ml or not path then return end
-	--[[
-	local name
-	local input = iup.text{visiblecolumns = 12, nc = 63}
-	local getname
-	local but = iup.button{title = "Done", action = function() name = tostring(input.value) getname:hide() end}
-	getname = iup.dialog{iup.vbox{
-		iup.label{title = "Please enter a name to identify the new particle entry:"},
-		input, but, gap = 12, nmargin = "15x15", alignment = "ACENTER"};
-		k_any = function(self, key) if key == iup.K_CR then but:action() end end}
-	iup.Popup(getname)
-	iup.Destroy(getname)]]
-	local name = GetName()
 
+	local name = GetName()
 	if not name then return end
 
 	local d = {}
@@ -206,18 +195,7 @@ function CopyParticle()
 	local sel = selection
 	if not ml or not path or not sel then return end
 
-	--[[local name
-	local input = iup.text{visiblecolumns = 12, nc = 63}
-	local getname
-	local but = iup.button{title = "Done", action = function() name = tostring(input.value) getname:hide() end}
-	getname = iup.dialog{iup.vbox{
-		iup.label{title = "Please enter a name to identify the new particle entry:"},
-		input, but, gap = 12, nmargin = "15x15", alignment = "ACENTER"};
-		k_any = function(self, key) if key == iup.K_CR then but:action() end end}
-	iup.Popup(getname)
-	iup.Destroy(getname)]]
 	local name = GetName()
-
 	if not name then return end
 
 	local d = {}
