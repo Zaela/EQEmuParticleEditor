@@ -36,7 +36,7 @@ function FilterList(data)
 			f = f .. "%"
 		end
 		local i = 1
-		for _, d in ipairs(data) do
+		for pos, d in ipairs(data) do
 			local name = d.name
 			if name:find(f) then
 				list[i] = name
@@ -64,9 +64,12 @@ end
 function list:button_cb(button, pressed, x, y)
 	if button == iup.BUTTON3 and pressed == 0 then
 		local mx, my = iup.GetGlobal("CURSORPOS"):match("(%d+)x(%d+)")
+		local had = selection and "YES" or "NO"
 		local menu = iup.menu{
 			iup.item{title = "Add New Entry", action = NewParticle},
-			iup.item{title = "Copy Selection", action = CopyParticle, active = selection and "YES" or "NO"},
+			iup.item{title = "Copy Selection", action = CopyParticle, active = had},
+			iup.separator{},
+			iup.item{title = "Delete Selection", action = DeleteParticle, active = had},
 		}
 		iup.Popup(menu, mx, my)
 		iup.Destroy(menu)

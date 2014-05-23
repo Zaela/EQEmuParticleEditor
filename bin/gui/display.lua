@@ -52,7 +52,7 @@ end
 local grid1 = iup.gridbox{
 	e"Effective ID", f.id, e"Filename", f.filename, e"Field1", f.field1, e"Field2", f.field2,
 	e"Field3", f.field3, e"Field4", f.field4, e"Field5", f.field5, e"Moves with Source", f.field6,
-	e"Field7", f.field7, e"Total Scale", f.total_scale, e"Density A", f.density_relatedA,
+	e"Permanent", f.field7, e"Total Scale", f.total_scale, e"Density A", f.density_relatedA,
 	e"Density B", f.density_relatedB, e"Density C", f.density, e"Delay A", f.emission_delayA,
 	e"Delay B", f.emission_delayB, e"Delay C (Fadeout)", f.fadeout_time, e"Particle Scale A", f.particle_scaleA,
 	e"Particle Scale B", f.particle_scaleB, e"Max at Once", f.field17, e"Opacity", f.field18, e"Movement Style", f.field19;
@@ -130,11 +130,25 @@ function ClearDisplay()
 	button.active = "NO"
 end
 
+local function GetName()
+	local name
+	local input = iup.text{visiblecolumns = 12, nc = 63}
+	local getname
+	local but = iup.button{title = "Done", padding = "10x0", action = function() name = tostring(input.value) getname:hide() end}
+	getname = iup.dialog{iup.vbox{
+		iup.label{title = "Please enter a name to identify the new particle entry:"},
+		input, but, gap = 12, nmargin = "15x15", alignment = "ACENTER"};
+		k_any = function(self, key) if key == iup.K_CR then but:action() end end}
+	iup.Popup(getname)
+	iup.Destroy(getname)
+	return name
+end
+
 function NewParticle()
 	local ml = main_list
 	local path = search_path
 	if not ml or not path then return end
-
+	--[[
 	local name
 	local input = iup.text{visiblecolumns = 12, nc = 63}
 	local getname
@@ -144,7 +158,8 @@ function NewParticle()
 		input, but, gap = 12, nmargin = "15x15", alignment = "ACENTER"};
 		k_any = function(self, key) if key == iup.K_CR then but:action() end end}
 	iup.Popup(getname)
-	iup.Destroy(getname)
+	iup.Destroy(getname)]]
+	local name = GetName()
 
 	if not name then return end
 
@@ -180,9 +195,9 @@ function NewParticle()
 	local s, err = pcall(data.Write, path, ml, d)
 	if s then
 		FilterList(ml)
-		return
+	else
+		error_popup(err)
 	end
-	error_popup(err)
 end
 
 function CopyParticle()
@@ -191,7 +206,7 @@ function CopyParticle()
 	local sel = selection
 	if not ml or not path or not sel then return end
 
-	local name
+	--[[local name
 	local input = iup.text{visiblecolumns = 12, nc = 63}
 	local getname
 	local but = iup.button{title = "Done", action = function() name = tostring(input.value) getname:hide() end}
@@ -200,7 +215,8 @@ function CopyParticle()
 		input, but, gap = 12, nmargin = "15x15", alignment = "ACENTER"};
 		k_any = function(self, key) if key == iup.K_CR then but:action() end end}
 	iup.Popup(getname)
-	iup.Destroy(getname)
+	iup.Destroy(getname)]]
+	local name = GetName()
 
 	if not name then return end
 
@@ -218,9 +234,30 @@ function CopyParticle()
 	local s, err = pcall(data.Write, path, ml, d)
 	if s then
 		FilterList(ml)
-		return
+	else
+		error_popup(err)
 	end
-	error_popup(err)
+end
+
+function DeleteParticle()
+	local ml = main_list
+	local path = search_path
+	local sel = selection
+	if not ml or not path or not sel then return end
+
+	local s, err = pcall(data.DeleteEntry, path, ml, sel)
+	if s then
+		table.remove(ml, sel.id)
+		--need to adjust later ids
+		for i = sel.id, #ml do
+			ml[i].id = i
+		end
+		selection = nil
+		ClearDisplay()
+		FilterList(ml)
+	else
+		error_popup(err)
+	end
 end
 
 return iup.hbox{grid1, grid2, grid3, grid4; gap = 5, nmargin = "10x10"}

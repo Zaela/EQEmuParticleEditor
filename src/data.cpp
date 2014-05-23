@@ -311,9 +311,45 @@ int Write(lua_State* L)
 	return 0;
 }
 
+int DeleteEntry(lua_State* L)
+{
+	const char* path = luaL_checkstring(L, 1);
+	if (!lua_istable(L, 2))
+		return luaL_argerror(L, 2, "expected main .edd file table");
+	if (!lua_istable(L, 3))
+		return luaL_argerror(L, 3, "expected particle data table");
+
+	lua_getfield(L, 2, "raw_data");
+	byte* ptr = (byte*)lua_touserdata(L, -1);
+	int len = lua_objlen(L, -1);
+	lua_pop(L, 1);
+
+	int offset = GetInt(L, "offset");
+	len -= Data::SIZE;
+	
+	FILE* fp = fopen(path, "wb+");
+	if (fp == nullptr)
+		return luaL_argerror(L, 1, "could not open specified path for writing");
+
+	//before section
+	fwrite(ptr, sizeof(byte), offset, fp);
+
+	if (len > offset)
+	{
+		//after section
+		fwrite(&ptr[offset + Data::SIZE], sizeof(byte), len - offset, fp);
+	}
+
+	fclose(fp);
+
+	//entry removed from main table on the lua side
+	return 0;
+}
+
 static const luaL_Reg funcs[] = {
 	{"Read", Read},
 	{"Write", Write},
+	{"DeleteEntry", DeleteEntry},
 	{nullptr, nullptr}
 };
 
