@@ -51,13 +51,13 @@ end
 
 local grid1 = iup.gridbox{
 	e"Effective ID", f.id, e"Filename", f.filename, e"Field1", f.field1, e"Field2", f.field2,
-	e"Field3", f.field3, e"Field4", f.field4, e"Field5", f.field5, e"Field6", f.field6,
+	e"Field3", f.field3, e"Field4", f.field4, e"Field5", f.field5, e"Moves with Source", f.field6,
 	e"Field7", f.field7, e"Total Scale", f.total_scale, e"Density A", f.density_relatedA,
 	e"Density B", f.density_relatedB, e"Density C", f.density, e"Delay A", f.emission_delayA,
 	e"Delay B", f.emission_delayB, e"Delay C (Fadeout)", f.fadeout_time, e"Particle Scale A", f.particle_scaleA,
 	e"Particle Scale B", f.particle_scaleB, e"Max at Once", f.field17, e"Opacity", f.field18, e"Movement Style", f.field19;
 	numdiv = 2, orientation = "HORIZONTAL", homogeneouslin = "YES",
-	gapcol = 10, gaplin = 8, alignmentlin = "ACENTER", sizelin = 15
+	gapcol = 10, gaplin = 8, alignmentlin = "ACENTER", sizelin = 7
 }
 
 local grid2 = iup.gridbox{
@@ -177,7 +177,7 @@ function NewParticle()
 
 	ml[id] = d
 
-	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", ml, d)
+	local s, err = pcall(data.Write, path, ml, d)
 	if s then
 		FilterList(ml)
 		return
@@ -215,7 +215,7 @@ function CopyParticle()
 
 	ml[id] = d
 
-	local s, err = pcall(data.Write, path .. "\\ActorEmittersNew.edd", ml, d)
+	local s, err = pcall(data.Write, path, ml, d)
 	if s then
 		FilterList(ml)
 		return

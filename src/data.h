@@ -90,7 +90,7 @@ struct Data
 	float field67;
 	float field68;
 	float field69;
-	float field70;
+	int field70;
 	int field71;
 	float field72;
 	float field73;

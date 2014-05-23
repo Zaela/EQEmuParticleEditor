@@ -133,7 +133,7 @@ int Read(lua_State* L)
 		SetFloat(L, d->field67, "field67");
 		SetFloat(L, d->field68, "field68");
 		SetFloat(L, d->field69, "field69");
-		SetFloat(L, d->field70, "field70");
+		SetInt(L, d->field70, "field70");
 		SetInt(L, d->field71, "field71");
 		SetFloat(L, d->field72, "field72");
 		SetFloat(L, d->field73, "field73");
@@ -268,7 +268,7 @@ int Write(lua_State* L)
 	d.field67 = GetFloat(L, "field67");
 	d.field68 = GetFloat(L, "field68");
 	d.field69 = GetFloat(L, "field69");
-	d.field70 = GetFloat(L, "field70");
+	d.field70 = GetInt(L, "field70");
 	d.field71 = GetInt(L, "field71");
 	d.field72 = GetFloat(L, "field72");
 	d.field73 = GetFloat(L, "field73");
