@@ -331,16 +331,19 @@ int DeleteEntry(lua_State* L)
 	if (fp == nullptr)
 		return luaL_argerror(L, 1, "could not open specified path for writing");
 
+	byte* out = (byte*)lua_newuserdata(L, len);
 	//before section
-	fwrite(ptr, sizeof(byte), offset, fp);
-
+	memcpy(out, ptr, offset);
 	if (len > offset)
 	{
 		//after section
-		fwrite(&ptr[offset + Data::SIZE], sizeof(byte), len - offset, fp);
+		memcpy(&out[offset], &ptr[offset + Data::SIZE], len - offset);
 	}
 
+	fwrite(out, sizeof(byte), len, fp);
 	fclose(fp);
+
+	lua_setfield(L, 2, "raw_data");
 
 	//entry removed from main table on the lua side
 	return 0;
