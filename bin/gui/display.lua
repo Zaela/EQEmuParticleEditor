@@ -12,6 +12,23 @@ local function EnterKey(self, key)
 	end
 end
 
+local function bool(...)
+	return iup.list{visiblecolumns = 10, mask = iup.MASK_FLOAT, editbox = "YES", dropdown = "YES",
+		action = Edited, k_any = EnterKey, edit_cb = Edited, ...}
+end
+
+local b = {
+	field1 = bool("1: On", "0: Off"),
+	field2 = bool("1: On", "0: Off"),
+	field3 = bool("1: On", "0: Off"),
+	field4 = bool("1: On", "0: Off"),
+	field5 = bool("2: ?", "1: On", "0: Off"),
+	field6 = bool("1: Yes", "0: No"),
+	field7 = bool("1: Yes", "-1: No"),
+}
+
+bool = nil
+
 local function int()
 	return iup.text{visiblecolumns = 12, mask = iup.MASK_INT, action = Edited, k_any = EnterKey}
 end
@@ -23,8 +40,7 @@ end
 local f = {
 	id = iup.text{visiblecolumns = 12, readonly = "YES"},
 	filename = iup.text{visiblecolumns = 12, action = Edited, k_any = EnterKey},
-	field1 = int(), field2 = int(), field3 = int(), field4 = int(), field5 = int(), field6 = int(),
-	field7 = float(), total_scale = float(), density_relatedA = int(), density_relatedB = int(),
+	total_scale = float(), density_relatedA = int(), density_relatedB = int(),
 	density = float(), emission_delayA = float(), emission_delayB = float(), fadeout_time = float(),
 	particle_scaleA = float(), particle_scaleB = float(), field17 = float(), field18 = float(),
 	field19 = int(), field20 = float(), x_axis_scale = float(), z_axis_scale = float(),
@@ -50,9 +66,9 @@ local function e(name)
 end
 
 local grid1 = iup.gridbox{
-	e"Effective ID", f.id, e"Filename", f.filename, e"Field1", f.field1, e"Field2", f.field2,
-	e"Field3", f.field3, e"Field4", f.field4, e"Field5", f.field5, e"Moves with Source", f.field6,
-	e"Permanent", f.field7, e"Total Scale", f.total_scale, e"Density A", f.density_relatedA,
+	e"Effective ID", f.id, e"Filename", f.filename, e"Boolean1", b.field1, e"Boolean2", b.field2,
+	e"Boolean3", b.field3, e"Boolean4", b.field4, e"Boolean5", b.field5, e"Moves with Source", b.field6,
+	e"Permanent", b.field7, e"Total Scale", f.total_scale, e"Density A", f.density_relatedA,
 	e"Density B", f.density_relatedB, e"Density C", f.density, e"Delay A", f.emission_delayA,
 	e"Delay B", f.emission_delayB, e"Delay C (Fadeout)", f.fadeout_time, e"Particle Scale A", f.particle_scaleA,
 	e"Particle Scale B", f.particle_scaleB, e"Max at Once", f.field17, e"Opacity", f.field18, e"Movement Style", f.field19;
@@ -108,6 +124,10 @@ function button:action()
 		end
 	end
 
+	for k, v in pairs(b) do
+		sel[k] = v.value:match("%-?%d+%.?%d*")
+	end
+
 	local s, err = pcall(data.Write, path, main_list, sel)
 	if s then
 		button.active = "NO"
@@ -120,11 +140,17 @@ function UpdateDisplay(d)
 	for k, v in pairs(f) do
 		v.value = d[k]
 	end
+	for k, v in pairs(b) do
+		v.value = d[k]
+	end
 	button.active = "NO"
 end
 
 function ClearDisplay()
 	for _, field in pairs(f) do
+		field.value = ""
+	end
+	for _, field in pairs(b) do
 		field.value = ""
 	end
 	button.active = "NO"
